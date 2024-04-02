@@ -3,7 +3,6 @@ const fs = require("fs");
 function writeAndRead(path,obj){
 
     fs.writeFile(path,JSON.stringify(obj), function(err){
-        console.log(err)
         fs.readFile(path,(err, data)=> {
             if (err) {
             console.error(err)
