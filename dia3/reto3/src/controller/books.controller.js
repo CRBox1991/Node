@@ -57,21 +57,22 @@ function postBook(request, response){
 
 function putBook(request, response){
     let respuesta;
-    const{title, price, author, type, photo, id_book} = request.body;
-    for(let i = 0; i < myBooks.length; i++){
-        if(myBooks[i].id_book == id_book){
-        myBooks[i].title = title;
-        myBooks[i].author = author
-        myBooks[i].price = price;
-        myBooks[i].type = type;
-        myBooks[i].photo = photo;
+    let editBook = myBooks.findIndex(book => book.id_book == request.body.id_book)
+    //const{title, price, author, type, photo, id_book} = request.body;
+    // for(let i = 0; i < myBooks.length; i++){
+        if(editBook != -1){
+        myBooks[editBook].title = request.body.title;
+        myBooks[editBook].author = request.body.author
+        myBooks[editBook].price = request.body.price;
+        myBooks[editBook].type = request.body.type;
+        myBooks[editBook].photo = request.body.photo;
     
             respuesta = {error: false, codigo: 200,mensaje: 'Libro actualizado', data: myBooks}
     }
-        else 
-            respuesta = {error: true, codigo: 200, mensaje: 'El libro no existe', data: null};
+        else {
+            respuesta = {error: true, codigo: 200, mensaje: 'El libro no existe', data: null};}
     
-    }
+    
     response.send(respuesta);
     console.log(myBooks);
 }
@@ -80,6 +81,7 @@ function deleteBook(request, response){
     let respuesta;
     for(let i = 0; i < myBooks.length; i++){
         if(myBooks[i].id_book == request.body.id_book){
+            console.log(request.body.id_book);
             myBooks.splice(i,1);
             respuesta = {error: false, codigo: 200, mensaje: 'El libro fue borrado', data:myBooks}
             console.log(myBooks);
